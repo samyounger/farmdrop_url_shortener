@@ -3,13 +3,13 @@ class UrlService
 
   def self.create_short_url(long_url)
     url_service = new(long_url: long_url)
-    return url_service.shorten_url unless (matching_url = url_service.match_long)
+    return url_service.shorten_url unless (matching_url = url_service.match(:long))
     matching_url
   end
 
   def self.find_long_url(short_url)
     url_service = new(short_url: short_url)
-    url_service.match_short
+    url_service.match(:short)
   end
 
   def initialize(args)
@@ -23,11 +23,8 @@ class UrlService
     [short_url, long_url]
   end
 
-  def match_short
-    all_urls.find { |short, long| short == @short_url }
-  end
-
-  def match_long
+  def match(type)
+    return all_urls.find { |short, long| short == @short_url } if type == :short
     all_urls.find { |short, long| long == @long_url }
   end
 
