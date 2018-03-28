@@ -13,9 +13,7 @@ RSpec.describe UrlStringsController, type: :controller do
     it 'successfully redirects on finding the url' do
       post :create, params: { url: 'http://www.farmdrop.com' }
       parsed_response = JSON.parse(response.body)
-
       short_url = parsed_response['short_url']
-      long_url  = parsed_response['url']
 
       get :show, params: { id: short_url }
       expect(response).to have_http_status(:moved_permanently)
