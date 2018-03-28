@@ -1,24 +1,16 @@
-# README
+# Url Shortening Service
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a project done as a code test for FarmDrop. The test was to shorten a url string like bitly.com, returning a randomly generated string. Then when the string is queried, the client is redirected to the original url.
 
-Things you may want to cover:
+This is a Ruby on Rails project. To set it up:
 
-* Ruby version
+```sh
+  $ bundle
+  $ rails s
+```
 
-* System dependencies
+The project should work from there.
 
-* Configuration
+If you want to access the console, `$ rails c`
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+If you want to run the tests, `rspec`
