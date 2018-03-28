@@ -6,12 +6,12 @@ class UrlStringsController < ApplicationController
 
   def show
     long_url = match_short.second
-    redirect_to long_url, status: :moved_permanently
+    redirect_to "http://#{long_url}", status: :moved_permanently
   end
 
   def create
     short_url = match_long || shorten_url
-    render json: { url: short_url.second, short_url: short_url.first }
+    render json: { url: short_url.second, short_url: short_url.first }, status: :created
   end
 
   private
