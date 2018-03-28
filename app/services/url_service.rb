@@ -18,7 +18,7 @@ class UrlService
   end
 
   def shorten_url
-    short_url = SecureRandom.hex(4)
+    short_url = generate_hex
     Rails.cache.fetch(short_url) { @long_url }
     [short_url, long_url]
   end
@@ -33,6 +33,13 @@ class UrlService
     strings_to_remove = %w[https://www. http://www. https:// http://]
     to_remove         = strings_to_remove.find { |sub_str| long_url.include?(sub_str) }
     long_url.gsub(to_remove, '')
+  end
+
+  def generate_hex
+    loop do
+      hex = SecureRandom.hex(4)
+      break hex unless Rails.cache.exist?(hex)
+    end
   end
 
   def all_urls
