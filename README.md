@@ -14,3 +14,9 @@ The project should work from there.
 If you want to access the console, `$ rails c`
 
 If you want to run the tests, `rspec`
+
+---
+There are two endpoints:
+
+`$ get http://localhost:3000/:shortened_url`
+`$ post http://localhost:3000/?url=url_to_shorten_goes_here`
