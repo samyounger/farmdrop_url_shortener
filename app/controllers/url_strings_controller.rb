@@ -1,6 +1,9 @@
 class UrlStringsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  def index
+  end
+
   def show
     long_url = match_short.second
     redirect_to long_url, status: :moved_permanently
@@ -8,15 +11,16 @@ class UrlStringsController < ApplicationController
 
   def create
     short_url = match_long || shorten_url
-    render json: { url: params[:url], short_url: short_url&.first }
+    render json: { url: short_url.second, short_url: short_url.first }
   end
 
   private
 
   def shorten_url
     short_url = SecureRandom.hex(4)
-    Rails.cache.fetch(short_url) { params[:url] }
-    [short_url, params[:url]]
+    long_url  = format_url
+    Rails.cache.fetch(short_url) { long_url }
+    [short_url, long_url]
   end
 
   def match_short
@@ -27,6 +31,13 @@ class UrlStringsController < ApplicationController
   def match_long
     url = params[:url]
     all_urls.find { |short, long| long == url }
+  end
+
+  def format_url
+    url               = params[:url]
+    strings_to_remove = %w[https://www. http://www. https:// http://]
+    to_remove         = strings_to_remove.find { |sub_str| url.include?(sub_str) }
+    url.gsub(to_remove, '')
   end
 
   def all_urls
