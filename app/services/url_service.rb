@@ -1,15 +1,16 @@
+# save and retrieve matching urls to shortened urls
 class UrlService
   attr_reader :long_url, :short_url
 
   def self.create_short_url(long_url)
     url_service = new(long_url: long_url)
-    return url_service.shorten_url unless (matching_url = url_service.match(:long))
+    return url_service.shorten_url unless (matching_url = url_service.match_long_url)
     matching_url
   end
 
   def self.find_long_url(short_url)
     url_service = new(short_url: short_url)
-    url_service.match(:short)
+    url_service.match_short_url
   end
 
   def initialize(args)
@@ -23,8 +24,11 @@ class UrlService
     [short_url, long_url]
   end
 
-  def match(type)
-    return all_urls.find { |short, long| short == @short_url } if type == :short
+  def match_short_url
+    all_urls.find { |short, long| short == @short_url }
+  end
+
+  def match_long_url
     all_urls.find { |short, long| long == @long_url }
   end
 
@@ -43,6 +47,6 @@ class UrlService
   end
 
   def all_urls
-    Rails.cache.instance_variable_get(:@data).map{ |key,value| [key, value.value] }
+    Rails.cache.instance_variable_get(:@data).map { |key,value| [key, value.value] }
   end
 end
