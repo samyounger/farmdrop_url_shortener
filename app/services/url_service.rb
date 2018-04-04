@@ -36,7 +36,7 @@ class UrlService
     return unless long_url
     protocol_identifiers = %w[https://www. http://www. https:// http://]
     identifiers_included = protocol_identifiers.find { |sub_str| long_url.include?(sub_str) }.present?
-    identifiers_included ? long_url : 'http://www' << long_url
+    identifiers_included ? long_url : 'http://www.' << long_url
   end
 
   def generate_hex
