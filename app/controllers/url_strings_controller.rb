@@ -7,7 +7,7 @@ class UrlStringsController < ApplicationController
   def show
     long_url = UrlService.find_long_url(params[:id])&.second
     if long_url
-      redirect_to "http://#{long_url}", status: :moved_permanently
+      redirect_to long_url, status: :moved_permanently
     else
       head :not_found
     end

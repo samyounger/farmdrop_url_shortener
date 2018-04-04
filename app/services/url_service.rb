@@ -34,9 +34,9 @@ class UrlService
 
   def format_url(long_url)
     return unless long_url
-    strings_to_remove = %w[https://www. http://www. https:// http://]
-    to_remove         = strings_to_remove.find { |sub_str| long_url.include?(sub_str) }
-    long_url.gsub(to_remove, '')
+    protocol_identifiers = %w[https://www. http://www. https:// http://]
+    identifiers_included = protocol_identifiers.find { |sub_str| long_url.include?(sub_str) }.present?
+    identifiers_included ? long_url : 'http://www' << long_url
   end
 
   def generate_hex
